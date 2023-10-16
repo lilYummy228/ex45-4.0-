@@ -44,11 +44,10 @@ namespace ex45_4._0_
 
         class Train
         {
-            List<Direction> _directions = new List<Direction>();
-            List<string> _train = new List<string>();
-            List<string> _trains = new List<string>();
-
-            Wagon[] _wagons = { new Wagon(20, "S"), new Wagon(50, "M"), new Wagon(100, "L") };
+            private List<Direction> _directions = new List<Direction>();
+            private List<string> _train = new List<string>();
+            private List<string> _trains = new List<string>();
+            private Wagon[] _wagons = { new Wagon(20, "S"), new Wagon(50, "M"), new Wagon(100, "L") };
 
             public void AddDirection()
             {
@@ -249,7 +248,6 @@ namespace ex45_4._0_
             }
 
             public string Mark { get; private set; }
-
             public int Capacity { get; private set; }
         }
     }
