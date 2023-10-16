@@ -12,7 +12,7 @@ namespace ex45_4._0_
             const string CommandExit = "3";
 
             Train train = new Train();
-            bool isOpen = true;            
+            bool isOpen = true;
 
             while (isOpen)
             {
