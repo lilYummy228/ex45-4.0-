@@ -44,15 +44,23 @@ namespace ex45_4._0_
 
         class Train
         {
-            private List<Direction> _directions = new List<Direction>();
-            private List<string> _train = new List<string>();
-            private List<string> _trains = new List<string>();
-            Wagon[] _wagons =
+            private List<Direction> _directions;
+            private List<string> _train;
+            private List<string> _trains;
+            private Wagon[] _wagons;
+
+            public Train()
+            {
+                _directions = new List<Direction>();
+                _train = new List<string>();
+                _trains = new List<string>();
+                _wagons = new Wagon[] 
                 {
-                new Wagon(20, "S"),
-                new Wagon(50, "M"),
-                new Wagon(100, "L")
+                    new Wagon(20, "S"),
+                    new Wagon(50, "M"),
+                    new Wagon(100, "L") 
                 };
+            }
 
             public void AddDirection()
             {
@@ -107,158 +115,153 @@ namespace ex45_4._0_
                 return train;
             }
 
-            private void CreateWagons()
+            private bool IsDirectionAlreadyExist()
             {
-                                
-            }
+                Console.Write("\nВпишите точку отправления: ");
+                string departure = Console.ReadLine();
+                Console.Write("Впишите точку прибытия: ");
+                string arrival = Console.ReadLine();
+                bool isExist = false;
 
-        private bool IsDirectionAlreadyExist()
-        {
-            Console.Write("\nВпишите точку отправления: ");
-            string departure = Console.ReadLine();
-            Console.Write("Впишите точку прибытия: ");
-            string arrival = Console.ReadLine();
-            bool isExist = false;
-
-            foreach (Direction direction in _directions)
-            {
-                if (direction.PointOfDeparture == departure && direction.PointOfArrival == arrival)
+                foreach (Direction direction in _directions)
                 {
-                    isExist = true;
+                    if (direction.PointOfDeparture == departure && direction.PointOfArrival == arrival)
+                    {
+                        isExist = true;
+                    }
                 }
-            }
 
-            if (isExist == false)
-            {
-                GetDirection(departure, arrival);
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("Такое направление уже есть...");
-                Console.ReadKey();
-                return true;
-            }
-        }
-
-        private void GetDirection(string departure, string arrival)
-        {
-            _directions.Add(new Direction(departure, arrival));
-        }
-
-        private int GetPassengersCount()
-        {
-            Random random = new Random();
-            int passengers = random.Next(100, 501);
-            return passengers;
-        }
-
-        private void CreateTrain()
-        {
-            const int CommandAddSmallWagon = 1;
-            const int CommandAddMediumWagon = 2;
-            const int CommandAddLargeWagon = 3;
-            const int CommandSendTrain = 4;
-
-            List<string> train = new List<string>();
-            _train = train;
-
-            int passengersCount = GetPassengersCount();
-            int smallWagonIndex = 0;
-            int mediumWagonIndex = 1;
-            int largeWagonIndex = 2;
-            bool isFilled = false;
-
-            while (isFilled == false)
-            {
-                Console.Clear();
-                Console.SetCursorPosition(0, 10);
-                DrawTrain();
-                Console.SetCursorPosition(0, 0);
-
-                if (passengersCount > 0)
+                if (isExist == false)
                 {
-                    Console.WriteLine($"Нужно добавить места для {passengersCount} пассажиров");
+                    GetDirection(departure, arrival);
+                    return false;
                 }
                 else
                 {
-                    int freePlaces = passengersCount * -1;
-                    Console.WriteLine($"В поезде {freePlaces} свободных мест");
+                    Console.WriteLine("Такое направление уже есть...");
+                    Console.ReadKey();
+                    return true;
                 }
+            }
 
-                Console.Write($"{CommandAddSmallWagon} - добавить вагон на {_wagons[smallWagonIndex].Capacity} мест\n" +
-                    $"{CommandAddMediumWagon} - добавить вагон на {_wagons[mediumWagonIndex].Capacity} мест\n" +
-                    $"{CommandAddLargeWagon} - добавить вагон на {_wagons[largeWagonIndex].Capacity} мест\n" +
-                    $"{CommandSendTrain} - отправить поезд\n" +
-                    $"\nСоставьте поезд: ");
+            private void GetDirection(string departure, string arrival)
+            {
+                _directions.Add(new Direction(departure, arrival));
+            }
 
-                if (int.TryParse(Console.ReadLine(), out int number))
+            private int GetPassengersCount()
+            {
+                Random random = new Random();
+                int passengers = random.Next(100, 501);
+                return passengers;
+            }
+
+            private void CreateTrain()
+            {
+                const int CommandAddSmallWagon = 1;
+                const int CommandAddMediumWagon = 2;
+                const int CommandAddLargeWagon = 3;
+                const int CommandSendTrain = 4;
+
+                List<string> train = new List<string>();
+                _train = train;
+
+                int passengersCount = GetPassengersCount();
+                int smallWagonIndex = 0;
+                int mediumWagonIndex = 1;
+                int largeWagonIndex = 2;
+                bool isFilled = false;
+
+                while (isFilled == false)
                 {
-                    if (number != CommandSendTrain)
+                    Console.Clear();
+                    Console.SetCursorPosition(0, 10);
+                    DrawTrain();
+                    Console.SetCursorPosition(0, 0);
+
+                    if (passengersCount > 0)
                     {
-                        if (number - 1 <= _wagons.Length)
+                        Console.WriteLine($"Нужно добавить места для {passengersCount} пассажиров");
+                    }
+                    else
+                    {
+                        int freePlaces = passengersCount * -1;
+                        Console.WriteLine($"В поезде {freePlaces} свободных мест");
+                    }
+
+                    Console.Write($"{CommandAddSmallWagon} - добавить вагон на {_wagons[smallWagonIndex].Capacity} мест\n" +
+                        $"{CommandAddMediumWagon} - добавить вагон на {_wagons[mediumWagonIndex].Capacity} мест\n" +
+                        $"{CommandAddLargeWagon} - добавить вагон на {_wagons[largeWagonIndex].Capacity} мест\n" +
+                        $"{CommandSendTrain} - отправить поезд\n" +
+                        $"\nСоставьте поезд: ");
+
+                    if (int.TryParse(Console.ReadLine(), out int number))
+                    {
+                        if (number != CommandSendTrain)
                         {
-                            _train.Add(_wagons[number - 1].Mark);
-                            passengersCount -= _wagons[number - 1].Capacity;
+                            if (number - 1 <= _wagons.Length)
+                            {
+                                _train.Add(_wagons[number - 1].Mark);
+                                passengersCount -= _wagons[number - 1].Capacity;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Такого вагона нет...");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("Такого вагона нет...");
+                            if (passengersCount <= 0)
+                            {
+                                Console.CursorVisible = false;
+                                Console.Clear();
+                                Console.WriteLine("Все пассажиры размещены, отправляем поезд...");
+                                _trains.Add(DrawTrain());
+                                isFilled = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Еще {passengersCount} пассажиров ждут своих мест. Добавьте больше вагонов...");
+                            }
                         }
                     }
                     else
                     {
-                        if (passengersCount <= 0)
-                        {
-                            Console.CursorVisible = false;
-                            Console.Clear();
-                            Console.WriteLine("Все пассажиры размещены, отправляем поезд...");
-                            _trains.Add(DrawTrain());
-                            isFilled = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Еще {passengersCount} пассажиров ждут своих мест. Добавьте больше вагонов...");
-                        }
+                        Console.WriteLine("Неккоректный ввод...");
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Неккоректный ввод...");
-                }
 
-                Console.ReadKey();
+                    Console.ReadKey();
+                }
             }
         }
-    }
 
-    class Direction
-    {
-        public Direction(string pointOfDeparture, string pointOfArrival)
+        class Direction
         {
-            PointOfDeparture = pointOfDeparture;
-            PointOfArrival = pointOfArrival;
+            public Direction(string pointOfDeparture, string pointOfArrival)
+            {
+                PointOfDeparture = pointOfDeparture;
+                PointOfArrival = pointOfArrival;
+            }
+
+            public string PointOfDeparture { get; private set; }
+            public string PointOfArrival { get; private set; }
+
+            public void ShowInfo()
+            {
+                Console.WriteLine($"{PointOfDeparture} - {PointOfArrival}");
+            }
         }
 
-        public string PointOfDeparture { get; private set; }
-        public string PointOfArrival { get; private set; }
-
-        public void ShowInfo()
+        class Wagon
         {
-            Console.WriteLine($"{PointOfDeparture} - {PointOfArrival}");
+            public Wagon(int capacity, string mark)
+            {
+                Capacity = capacity;
+                Mark = mark;
+            }
+
+            public string Mark { get; private set; }
+            public int Capacity { get; private set; }
         }
     }
-
-    class Wagon
-    {
-        public Wagon(int capacity, string mark)
-        {
-            Capacity = capacity;
-            Mark = mark;
-        }
-
-        public string Mark { get; private set; }
-        public int Capacity { get; private set; }
-    }
-}
 }
